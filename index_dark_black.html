@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Advisor — Personal Finance Intelligence</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#0b0b0b;color:#f5f5f5;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+#auth{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:25px;background:radial-gradient(circle at 15% 15%,#ff8a0030,transparent 32%),radial-gradient(circle at 85% 80%,#ffb34720,transparent 28%),#0b0b0b}
+.auth-card{width:430px;max-width:100%;padding:42px;background:#141414;border:1px solid #ffffff18;border-radius:25px;box-shadow:0 30px 100px #00000080}.logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;margin-bottom:35px}.logo-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#ff8a00;color:#ffffff}.auth-card h1{font-size:34px;margin-bottom:8px}.auth-card>p{color:#b8b8b8;font-size:14px;margin-bottom:30px}.tabs{display:flex;background:#0b0b0b;padding:4px;border-radius:10px;margin-bottom:25px}.tabs button{flex:1;border:0;padding:10px;border-radius:8px;background:transparent;color:#b8b8b8}.tabs button.active{background:#ff8a00;color:#ffffff;font-weight:700}.field{margin-bottom:15px}.field label{display:block;color:#b8b8b8;font-size:12px;margin-bottom:7px}.field input,.field select{width:100%;padding:13px;border-radius:10px;border:1px solid #ffffff18;background:#1a1a1a;color:#ffffff;outline:none}.primary,.analyze,.save{padding:13px 18px;border:0;border-radius:10px;background:#ff8a00;color:#ffffff;font-weight:700}.primary{width:100%;margin-top:10px}.auth-message{margin-top:15px;font-size:12px;color:#d94a4a}
+#app{display:none;min-height:100vh}#app.active{display:block}.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;padding:25px 17px;background:#111111;border-right:1px solid #ffffff20;z-index:20}.sidebar .logo{margin-left:10px}.menu-title{color:#8f8f8f;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin:28px 12px 10px}.nav{display:flex;flex-direction:column;gap:5px}.nav button{border:0;background:transparent;color:#b8b8b8;text-align:left;padding:12px;border-radius:10px;font-size:14px}.nav button:hover,.nav button.active{background:#ff8a0022;color:#ff8a00}.logout{position:absolute;bottom:25px;left:17px;right:17px}.logout button{width:100%;padding:11px;border:1px solid #ffffff18;background:transparent;color:#b8b8b8;border-radius:10px}
+.main{margin-left:245px;padding:30px;max-width:1500px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.topbar h1{font-size:30px}.user-mini{display:flex;align-items:center;gap:10px}.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff8a00,#ffb347);color:#ffffff;display:grid;place-items:center;font-weight:700}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#141414;border:1px solid #ffffff18;border-radius:17px;padding:21px}.stat-label{color:#b8b8b8;font-size:12px}.stat-value{font-size:26px;font-weight:700;margin-top:7px}.green{color:#ff8a00}.red{color:#d94a4a}.yellow{color:#d98200}.section{margin-top:25px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.section-head h2{font-size:21px}.two{display:grid;grid-template-columns:1.3fr .7fr;gap:15px}.salary-box{display:grid;grid-template-columns:1fr 1fr;gap:20px}.salary-input{background:#1a1a1a;border:1px solid #ffffff18;border-radius:14px;padding:20px}.salary-input input{width:100%;padding:15px;background:#141414;border:1px solid #ffffff18;border-radius:10px;color:white;font-size:22px;margin:10px 0}.allocation{display:flex;flex-direction:column;gap:13px}.alloc-row{display:grid;grid-template-columns:130px 1fr 85px;gap:10px;align-items:center;font-size:12px}.bar{height:8px;background:#333333;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:#ff8a00;border-radius:20px}
+.chat{height:420px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;padding:5px;display:flex;flex-direction:column;gap:12px}.message{max-width:80%;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.5}.ai{background:#111111;color:#dddddd;align-self:flex-start}.user{background:#ff8a0021;color:#f5f5f5;align-self:flex-end}.chat-input{display:flex;gap:8px;margin-top:12px}.chat-input input{flex:1;background:#1a1a1a;border:1px solid #ffffff18;color:white;border-radius:10px;padding:12px}.chat-input button{border:0;background:#ff8a00;border-radius:10px;padding:0 17px}
+.stock-search{display:flex;gap:10px;margin-bottom:15px}.stock-search input{flex:1;padding:12px;background:#1a1a1a;border:1px solid #ffffff18;color:white;border-radius:9px}.stock-table{width:100%;border-collapse:collapse}.stock-table th{color:#8f8f8f;font-size:11px;text-align:left;padding:12px 8px;border-bottom:1px solid #ffffff18}.stock-table td{padding:15px 8px;border-bottom:1px solid #ffffff12;font-size:13px}.stock-name{font-weight:700}.stock-sub{color:#b8b8b8;font-size:10px}.badge{padding:5px 8px;border-radius:7px;font-size:10px}.low{background:#ff8a001a;color:#ff8a00}.medium{background:#d9820028;color:#d98200}.high{background:#d94a4a1a;color:#d94a4a}.stock-note{margin-top:15px;padding:12px;background:#d9820015;border:1px solid #d9820028;color:#b0b0b0;font-size:11px;border-radius:10px}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.profile-card h3{margin-bottom:18px}.goal{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #ffffff18}.goal small{color:#b8b8b8}.expense-list{display:flex;flex-direction:column;gap:10px}.expense{display:flex;justify-content:space-between;padding:14px;background:#1a1a1a;border-radius:10px}.expense small{color:#b8b8b8}
+@media(max-width:950px){.sidebar{width:70px;padding:20px 10px}.sidebar .logo span:last-child,.menu-title,.nav button span,.logout button{display:none}.main{margin-left:70px}.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:650px){.main{padding:18px}.grid,.profile-grid,.salary-box{grid-template-columns:1fr}.topbar h1{font-size:23px}.card{padding:16px}.stock-table{font-size:11px}}
+</style>
+</head>
+<body>
+<div id="auth"><div class="auth-card">
+<div class="logo"><div class="logo-icon">AI</div>AI Advisor</div>
+<h1 id="authTitle">Welcome back</h1><p id="authSub">Your AI-powered personal finance intelligence.</p>
+<div class="tabs"><button class="active" id="loginTab" onclick="showLogin()">Login</button><button id="signupTab" onclick="showSignup()">Create Account</button></div>
+<form id="authForm">
+<div class="field hidden" id="nameField"><label>Full Name</label><input id="name" placeholder="Your name"></div>
+<div class="field"><label>Email</label><input id="email" type="email" placeholder="you@example.com" required></div>
+<div class="field"><label>Password</label><input id="password" type="password" placeholder="••••••••" required></div>
+<div class="field hidden" id="salaryField"><label>Monthly Salary ₹</label><input id="signupSalary" type="number" placeholder="50000"></div>
+<button class="primary" type="submit" id="authButton">Login to Dashboard</button>
+</form><div class="auth-message" id="authMessage"></div>
+</div></div>
+
+<div id="app">
+<aside class="sidebar">
+<div class="logo"><div class="logo-icon">AI</div><span>AI Advisor</span></div>
+<div class="menu-title">Main</div>
+<div class="nav">
+<button class="active" onclick="openPage('dashboard',this)">📊 <span>Dashboard</span></button>
+<button onclick="openPage('salary',this)">💰 <span>Salary Analyzer</span></button>
+<button onclick="openPage('advisor',this)">🤖 <span>AI Advisor</span></button>
+<button onclick="openPage('stocks',this)">📈 <span>Stocks</span></button>
+<button onclick="openPage('portfolio',this)">💼 <span>Portfolio</span></button>
+<button onclick="openPage('expenses',this)">🧾 <span>Expenses</span></button>
+</div>
+<div class="menu-title">Account</div>
+<div class="nav"><button onclick="openPage('profile',this)">👤 <span>My Profile</span></button></div>
+<div class="logout"><button onclick="logout()">↪ Logout</button></div>
+</aside>
+
+<main class="main">
+<div class="topbar"><h1 id="pageTitle">Financial Dashboard</h1><div class="user-mini"><div><strong id="topName">User</strong><div style="font-size:10px;color:#b8b8b8">AI Investor</div></div><div class="avatar" id="avatar">U</div></div></div>
+
+<div id="dashboard" class="page">
+<div class="grid">
+<div class="card"><div class="stat-label">Monthly Salary</div><div class="stat-value" id="dashSalary">₹0</div></div>
+<div class="card"><div class="stat-label">Recommended Investment</div><div class="stat-value green" id="dashInvestment">₹0</div></div>
+<div class="card"><div class="stat-label">Monthly Expenses</div><div class="stat-value" id="dashExpenses">₹0</div></div>
+<div class="card"><div class="stat-label">Financial Health</div><div class="stat-value green">Good</div></div>
+</div>
+<div class="section two"><div class="card"><div class="section-head"><h2>AI Financial Summary</h2></div><p id="summary" style="color:#b8b8b8;font-size:14px;line-height:1.8">Add your salary to receive your personalised analysis.</p></div>
+<div class="card"><div class="section-head"><h2>Goals</h2></div><div class="goal"><div>Emergency Fund</div><small>6 months</small></div><div class="goal"><div>Wealth Creation</div><small>10+ years</small></div><div class="goal"><div>Retirement</div><small>Long term</small></div></div></div>
+<div class="section card"><div class="section-head"><h2>Recommended Monthly Allocation</h2><button class="analyze" onclick="openPage('salary')">Re-analyze</button></div><div class="allocation" id="dashboardAllocation"></div></div>
+</div>
+
+<div id="salary" class="page hidden"><div class="card"><div class="section-head"><h2>AI Salary Analyzer</h2></div><p style="color:#b8b8b8;font-size:13px;margin-bottom:20px">Enter your monthly salary to create an illustrative budget and investment allocation.</p>
+<div class="salary-box"><div class="salary-input"><label style="color:#b8b8b8;font-size:12px">Monthly Take-Home Salary</label><input id="salaryAmount" type="number" placeholder="50000" onkeydown="if(event.key==='Enter')analyzeSalary()"><button class="analyze" onclick="analyzeSalary()">Analyze My Salary →</button><div id="salaryResult" style="margin-top:20px;color:#b8b8b8;font-size:13px;line-height:1.7"></div></div>
+<div><h3 style="margin-bottom:18px">Suggested Allocation</h3><div class="allocation" id="salaryAllocation"><div style="color:#b8b8b8;font-size:13px">Enter your salary to see your analysis.</div></div></div></div></div></div>
+
+<div id="advisor" class="page hidden"><div class="card chat"><div class="section-head"><h2>🤖 AI Advisor Advisor</h2><span class="badge low">ONLINE</span></div><div class="messages" id="messages"><div class="message ai">Hi! Ask me about budgeting, investing, SIPs, emergency funds, stocks or financial goals.</div></div><div class="chat-input"><input id="question" placeholder="Example: I earn ₹60,000. How should I invest?"><button onclick="askAI()">Send</button></div></div></div>
+
+<div id="stocks" class="page hidden"><div class="card"><div class="section-head"><h2>📈 Stock Intelligence</h2><span class="badge medium">SAMPLE DATA</span></div><div class="stock-search"><input id="stockSearch" placeholder="Search stock e.g. RELIANCE, TCS, INFY"><button class="analyze" onclick="searchStock()">Search</button></div>
+<table class="stock-table"><thead><tr><th>Stock</th><th>Price</th><th>Day</th><th>Risk</th><th>AI View</th></tr></thead><tbody id="stockBody"></tbody></table>
+<div class="stock-note">⚠ Prices shown here are sample data. A production app should connect to an authorised live market-data provider. Future returns cannot be guaranteed.</div></div></div>
+
+<div id="portfolio" class="page hidden"><div class="grid"><div class="card"><div class="stat-label">Portfolio Value</div><div class="stat-value">₹0</div></div><div class="card"><div class="stat-label">Invested</div><div class="stat-value">₹0</div></div><div class="card"><div class="stat-label">Returns</div><div class="stat-value green">0%</div></div><div class="card"><div class="stat-label">Risk Score</div><div class="stat-value yellow">Moderate</div></div></div><div class="section card"><h2>My Portfolio</h2><p style="color:#b8b8b8;font-size:13px;margin-top:12px">Connect a supported brokerage account in the production version to import real holdings.</p></div></div>
+
+<div id="expenses" class="page hidden"><div class="card"><div class="section-head"><h2>🧾 Daily Expense Tracker</h2><button class="analyze" onclick="addExpense()">+ Add Expense</button></div><div class="expense-list" id="expenseList"><div class="expense"><div>Food <small>Today</small></div><strong>₹0</strong></div><div class="expense"><div>Transport <small>Today</small></div><strong>₹0</strong></div><div class="expense"><div>Shopping <small>Today</small></div><strong>₹0</strong></div></div></div></div>
+
+<div id="profile" class="page hidden"><div class="profile-grid"><div class="card profile-card"><h3>👤 Personal Profile</h3>
+<div class="field"><label>Name</label><input id="profileName"></div><div class="field"><label>Monthly Salary</label><input id="profileSalary" type="number"></div><div class="field"><label>Age</label><input id="profileAge" type="number" placeholder="25"></div><div class="field"><label>Risk Preference</label><select id="risk"><option>Conservative</option><option selected>Moderate</option><option>Aggressive</option></select></div><button class="save" onclick="saveProfile()">Save Profile</button></div>
+<div class="card profile-card"><h3>🎯 Financial Goals</h3><div class="goal"><div>Emergency Fund<small>Safety</small></div><strong>6 Months</strong></div><div class="goal"><div>Home<small>Medium term</small></div><strong>5 Years</strong></div><div class="goal"><div>Retirement<small>Long term</small></div><strong>20+ Years</strong></div><div class="goal"><div>Education<small>Long term</small></div><strong>10 Years</strong></div></div></div></div>
+</main></div>
+
+<script>
+let signupMode=false;
+function showLogin(){signupMode=false;loginTab.classList.add("active");signupTab.classList.remove("active");authTitle.innerText="Welcome back";authSub.innerText="Your AI-powered personal finance intelligence.";nameField.classList.add("hidden");salaryField.classList.add("hidden");authButton.innerText="Login to Dashboard";authMessage.innerText=""}
+function showSignup(){signupMode=true;signupTab.classList.add("active");loginTab.classList.remove("active");authTitle.innerText="Create your account";authSub.innerText="Build your personalised financial intelligence profile.";nameField.classList.remove("hidden");salaryField.classList.remove("hidden");authButton.innerText="Create My Account";authMessage.innerText=""}
+authForm.addEventListener("submit",e=>{e.preventDefault();let email=emailInput().value,password=document.getElementById("password").value;if(signupMode){let user={email,password,name:document.getElementById("name").value||"User",salary:Number(document.getElementById("signupSalary").value)||0};localStorage.setItem("finoraUser",JSON.stringify(user));loginUser(user)}else{window.addEventListener("error",function(e){console.error(e.error||e.message);});
+let saved=JSON.parse(localStorage.getItem("finoraUser"));if(!saved||saved.email!==email||saved.password!==password){authMessage.innerText="Account not found or incorrect login details.";return}loginUser(saved)}})
+function emailInput(){return document.getElementById("email")}
+function loginUser(u){auth.style.display="none";app.classList.add("active");topName.innerText=u.name;avatar.innerText=u.name.charAt(0).toUpperCase();profileName.value=u.name;profileSalary.value=u.salary||"";salaryAmount.value=u.salary||"";if(u.salary)analyzeSalary(u.salary)}
+function openPage(page,button){document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));document.getElementById(page).classList.remove("hidden");document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));if(button)button.classList.add("active");let titles={dashboard:"Financial Dashboard",salary:"AI Salary Analyzer",advisor:"AI Financial Advisor",stocks:"Stock Intelligence",portfolio:"My Portfolio",expenses:"Expense Tracker",profile:"My Profile"};pageTitle.innerText=titles[page];if(page==="stocks")renderStocks()}
+function analyzeSalary(value){let salary=value||Number(document.getElementById("salaryAmount").value);if(!salary||salary<=0)return;let essential=Math.round(salary*.45),life=Math.round(salary*.15),invest=Math.round(salary*.25),emergency=Math.round(salary*.10),flex=salary-essential-life-invest-emergency;let data=[["Essential Expenses",essential,45],["Lifestyle",life,15],["Investments",invest,25],["Emergency Fund",emergency,10],["Flexible",flex,(flex/salary)*100]];let html=data.map(x=>`<div class="alloc-row"><span>${x[0]}</span><div class="bar"><span style="width:${x[2]}%"></span></div><strong>₹${x[1].toLocaleString()}</strong></div>`).join("");document.getElementById("salaryAllocation").innerHTML=html;document.getElementById("dashboardAllocation").innerHTML=html;document.getElementById("dashSalary").innerText="₹"+salary.toLocaleString();document.getElementById("dashInvestment").innerText="₹"+invest.toLocaleString();document.getElementById("dashExpenses").innerText="₹"+(essential+life).toLocaleString();document.getElementById("summary").innerHTML=`Your illustrative plan allocates <strong class="green">₹${invest.toLocaleString()}</strong> toward investments, ₹${emergency.toLocaleString()} toward emergency savings and ₹${(essential+life).toLocaleString()} toward regular expenses.`;document.getElementById("salaryResult").innerHTML=`<strong style="color:white">AI analysis for ₹${salary.toLocaleString()}</strong><br><br>Consider approximately <strong class="green">₹${invest.toLocaleString()}</strong> for investments, subject to your actual expenses, debt, goals and risk profile.<br><br><strong style="color:white">Investment focus:</strong> diversified long-term investments may be considered based on your goals and risk profile.`;let u=JSON.parse(localStorage.getItem("finoraUser"))||{};u.salary=salary;localStorage.setItem("finoraUser",JSON.stringify(u))}
+function askAI(){let input=document.getElementById("question");let box=document.getElementById("messages");let q=input.value.trim();if(!q)return;box.innerHTML+=`<div class="message user">${esc(q)}</div>`;messages.innerHTML+=`<div class="message ai">${getAIAnswer(q)}</div>`;input.value="";box.scrollTop=box.scrollHeight}
+function getAIAnswer(q){
+let t=q.toLowerCase(), m=q.replace(/,/g,"").match(/(?:₹|rs\.?|inr)?\s*(\d+(?:\.\d+)?)\s*(k|thousand|lakh|lac)?/i), salary=null;
+if(m){salary=Number(m[1]);let unit=(m[2]||"").toLowerCase();if(unit==="k"||unit==="thousand")salary*=1000;if(unit==="lakh"||unit==="lac")salary*=100000}
+if(t.includes("salary")||t.includes("income")||t.includes("earn")||t.includes("pay")){
+ if(salary){let invest=Math.round(salary*.25),essential=Math.round(salary*.45),life=Math.round(salary*.15),emergency=Math.round(salary*.10);return `For a monthly income of <strong>₹${salary.toLocaleString()}</strong>, an illustrative starting plan is:<br><br>🏠 Essentials: <strong>₹${essential.toLocaleString()}</strong><br>🎯 Lifestyle: <strong>₹${life.toLocaleString()}</strong><br>📈 Long-term investments: <strong class="green">₹${invest.toLocaleString()}</strong><br>🛟 Emergency fund: <strong>₹${emergency.toLocaleString()}</strong><br><br>For investments, consider diversified options such as index funds/SIPs according to your goals and risk tolerance. This is educational guidance, not guaranteed returns.`}
+ return `Tell me your monthly salary, for example: <strong>"My salary is ₹60,000. How much should I invest?"</strong> I can then estimate expenses, emergency savings and investments.`
+}
+if(t.includes("sip"))return `A SIP is a way to invest a fixed amount regularly. For long-term goals, a diversified index-fund SIP can be one option to research. The amount should fit after essential expenses and emergency savings.`;
+if(t.includes("mutual")||t.includes("index fund")||t.includes("etf"))return `For a long-term investor, diversified low-cost funds can reduce single-stock concentration. Compare expense ratio, tracking error, diversification, risk and your time horizon before investing.`;
+if(t.includes("stock")||t.includes("share")||t.includes("nifty")||t.includes("sensex"))return `I can help compare stocks using price, valuation, earnings, growth, debt and risk. I cannot reliably promise that a stock will make a specific profit in a specific time. Check the Stocks section for sample market data.`;
+if(t.includes("profit")||t.includes("return"))return `No legitimate advisor can guarantee a future stock profit or exact time to profit. Returns depend on market conditions, valuation, business performance and your holding period.`;
+if(t.includes("expense")||t.includes("spending")||t.includes("budget"))return `A useful starting budget is to keep essential expenses controlled, reserve money for an emergency fund, invest consistently, and then use the remaining amount for discretionary spending. Track every expense for 30 days to personalise this plan.`;
+if(t.includes("emergency"))return `Build an emergency fund before taking excessive investment risk. A common planning target is roughly 3–6 months of essential expenses, with more if your income is unstable.`;
+if(t.includes("retirement"))return `For retirement, focus on your target retirement age, current savings, expected monthly spending and investment horizon. Start early with diversified long-term investments and review the plan periodically.`;
+if(t.includes("home")||t.includes("house"))return `For a home goal, separate the down-payment timeline from long-term wealth investments. Money needed in the near term generally calls for lower-risk options than money invested for decades.`;
+if(t.includes("tax"))return `Tax treatment depends on the investment, holding period and current Indian tax rules. In a production version, this advisor should use current tax data and your tax profile before giving a personalised recommendation.`;
+return `I can answer questions about salary planning, expenses, SIPs, mutual funds, stocks, emergency funds, retirement, tax planning and financial goals. Try: <strong>"My salary is ₹50,000, how much should I invest?"</strong>`;
+}
+const stocks=[
+["Reliance Industries","RELIANCE",1452.40,"+1.24%","Medium","Watch"],
+["Tata Consultancy Services","TCS",3210.20,"+0.68%","Medium","Positive"],
+["Infosys","INFY",1584.30,"-0.42%","Medium","Watch"],
+["HDFC Bank","HDFCBANK",1892.10,"+0.91%","Medium","Positive"],
+["ICICI Bank","ICICIBANK",1324.50,"+0.74%","Medium","Positive"],
+["State Bank of India","SBIN",812.30,"+1.10%","Medium","Positive"],
+["Axis Bank","AXISBANK",1198.40,"+0.55%","Medium","Watch"],
+["Kotak Mahindra Bank","KOTAKBANK",1980.60,"-0.21%","Medium","Watch"],
+["ITC","ITC",415.80,"+0.32%","Low","Stable"],
+["Larsen & Toubro","LT",3675.20,"+0.83%","Medium","Positive"],
+["Bharti Airtel","BHARTIARTL",1912.30,"+1.42%","Medium","Positive"],
+["Hindustan Unilever","HINDUNILVR",2460.80,"-0.18%","Low","Stable"],
+["Sun Pharmaceutical","SUNPHARMA",1764.10,"+0.64%","Medium","Positive"],
+["Maruti Suzuki","MARUTI",12840.00,"+0.37%","Medium","Watch"],
+["Mahindra & Mahindra","M&M",3225.40,"+1.05%","High","Positive"],
+["Tata Motors","TATAMOTORS",742.60,"-1.15%","High","Research"],
+["Tata Steel","TATASTEEL",184.20,"+0.86%","High","Watch"],
+["Adani Enterprises","ADANIENT",2488.50,"-0.72%","High","Research"],
+["Adani Ports","ADANIPORTS",1435.60,"+0.46%","High","Watch"],
+["Power Grid Corporation","POWERGRID",358.70,"+0.29%","Low","Stable"],
+["NTPC","NTPC",402.40,"+0.77%","Medium","Positive"],
+["Coal India","COALINDIA",461.20,"+0.34%","Medium","Stable"],
+["ONGC","ONGC",298.70,"+0.61%","Medium","Stable"],
+["Indian Oil Corporation","IOC",151.40,"-0.10%","Medium","Watch"],
+["Hindalco Industries","HINDALCO",744.90,"+0.52%","High","Watch"],
+["Bajaj Finance","BAJFINANCE",9340.00,"+0.43%","High","Positive"],
+["Bajaj Finserv","BAJAJFINSV",2145.80,"+0.26%","Medium","Positive"],
+["Asian Paints","ASIANPAINT",2910.40,"-0.35%","Medium","Watch"],
+["Titan Company","TITAN",3680.70,"+0.92%","Medium","Positive"],
+["Nestle India","NESTLEIND",2485.30,"+0.11%","Low","Stable"],
+["Wipro","WIPRO",486.50,"-0.24%","Medium","Watch"],
+["HCL Technologies","HCLTECH",1618.20,"+0.58%","Medium","Positive"],
+["Tech Mahindra","TECHM",1682.70,"+0.31%","Medium","Watch"],
+["UltraTech Cement","ULTRACEMCO",12150.00,"+0.47%","Medium","Positive"],
+["Cipla","CIPLA",1540.20,"+0.38%","Medium","Positive"],
+["Dr. Reddy's Laboratories","DRREDDY",1254.60,"-0.12%","Medium","Watch"],
+["Eicher Motors","EICHERMOT",5650.30,"+0.66%","Medium","Positive"],
+["TVS Motor Company","TVSMOTOR",3210.50,"+0.73%","High","Positive"],
+["Zomato","ZOMATO",286.40,"+1.61%","High","Research"],
+["Trent","TRENT",5120.00,"+0.81%","High","Positive"],
+["DLF","DLF",825.60,"+0.44%","High","Watch"],
+["Indian Railway Finance Corporation","IRFC",152.80,"+0.63%","High","Watch"],
+["Indian Renewable Energy Development Agency","IREDA",184.70,"+1.12%","High","Research"],
+["Bharat Electronics","BEL",398.50,"+0.97%","Medium","Positive"],
+["Hindustan Aeronautics","HAL",5125.00,"+0.69%","Medium","Positive"],
+["Bharat Heavy Electricals","BHEL",312.40,"+0.88%","High","Watch"],
+["Varun Beverages","VBL",524.60,"+0.41%","Medium","Positive"],
+["Pidilite Industries","PIDILITIND",3155.80,"+0.29%","Low","Stable"],
+["Dabur India","DABUR",542.30,"+0.20%","Low","Stable"],
+["Britannia Industries","BRITANNIA",5010.40,"-0.14%","Low","Stable"],
+["Godrej Consumer Products","GODREJCP",1328.50,"+0.33%","Low","Watch"],
+["Avenue Supermarts","DMART",4210.30,"+0.52%","Medium","Positive"],
+["SBI Life Insurance","SBILIFE",1842.70,"+0.48%","Medium","Positive"],
+["HDFC Life Insurance","HDFCLIFE",782.40,"+0.35%","Medium","Watch"],
+["Bajaj Auto","BAJAJ-AUTO",10120.00,"+0.55%","Medium","Positive"],
+["Hero MotoCorp","HEROMOTOCO",5870.20,"+0.28%","Medium","Watch"],
+["Ashok Leyland","ASHOKLEY",238.70,"+0.76%","High","Watch"],
+["Indian Hotels","INDHOTEL",812.60,"+0.45%","Medium","Positive"],
+["InterGlobe Aviation","INDIGO",5420.00,"-0.31%","High","Research"],
+["JSW Steel","JSWSTEEL",1095.40,"+0.71%","High","Watch"],
+["Vedanta","VEDL",612.50,"+0.92%","High","Research"],
+["HDFC Asset Management","HDFCAMC",5120.00,"+0.39%","Medium","Positive"],
+["ICICI Prudential Life Insurance","ICICIPRULI",812.10,"+0.22%","Medium","Watch"],
+["Apollo Hospitals","APOLLOHOSP",7850.00,"+0.61%","Medium","Positive"],
+["Divi's Laboratories","DIVISLAB",6450.00,"+0.18%","Medium","Watch"],
+["Bharat Petroleum","BPCL",362.80,"+0.51%","Medium","Stable"],
+["GAIL India","GAIL",188.60,"+0.42%","Medium","Stable"],
+["Marico","MARICO",745.20,"+0.24%","Low","Stable"],
+["Motherson","MOTHERSON",182.40,"+0.57%","Medium","Watch"],
+["Siemens India","SIEMENS",7340.00,"+0.36%","Medium","Positive"],
+["ABB India","ABB",6820.00,"+0.44%","Medium","Positive"]
+];
+
+const assetAliases={
+"gold":["gold","gold price","gold mcx","gold etf","goldbees","gld","nibm"],
+"silver":["silver","silver price","silver etf"],
+"nifty":["nifty","nifty 50","nse nifty"],
+"sensex":["sensex","bse sensex"]
+};
+function renderStocks(filter=""){
+let raw=(filter||"").trim().toLowerCase();
+if(raw==="gold"||raw.includes("gold")){
+ stockBody.innerHTML=`<tr><td><div class="stock-name">Gold</div><div class="stock-sub">Commodity / India</div></td><td>₹7,000+/g*</td><td class="green">Market-linked</td><td><span class="badge medium">Medium</span></td><td><strong>Track</strong><div class="stock-sub">Gold is not a stock; price varies by market.</div></td></tr>
+<tr><td><div class="stock-name">Gold ETF</div><div class="stock-sub">Exchange-traded gold exposure</div></td><td>Varies*</td><td class="green">Market-linked</td><td><span class="badge low">Lower</span></td><td><strong>Research</strong><div class="stock-sub">Compare expense ratio & tracking.</div></td></tr>
+<tr><td><div class="stock-name">Gold Bees</div><div class="stock-sub">GOLDBEES</div></td><td>Varies*</td><td class="green">Market-linked</td><td><span class="badge low">Lower</span></td><td><strong>Research</strong><div class="stock-sub">ETF; not an individual company.</div></td></tr>`;
+ return;
+}
+if(raw==="silver"||raw.includes("silver")){
+ stockBody.innerHTML=`<tr><td><div class="stock-name">Silver</div><div class="stock-sub">Commodity / India</div></td><td>Market-linked*</td><td class="green">Market-linked</td><td><span class="badge high">High</span></td><td><strong>Track</strong><div class="stock-sub">Commodity, not a stock.</div></td></tr>`;
+ return;
+}
+let terms=raw.split(/\s+/).filter(Boolean);
+let d=stocks.filter(s=>{
+ let hay=(s[0]+" "+s[1]).toLowerCase();
+ return terms.every(term=>hay.includes(term));
+});
+if(!d.length)d=stocks.filter(s=>(s[0]+" "+s[1]).toLowerCase().includes(raw));
+if(!d.length){
+ stockBody.innerHTML=`<tr><td colspan="5" style="padding:25px;color:#b8b8b8">No matching company found in the demo database. Try a company name or NSE symbol. For example: <strong>Gold</strong>, TCS, Reliance, Infosys, HDFC, Tata, Adani, ITC.</td></tr>`;
+ return;
+}
+stockBody.innerHTML=d.map(s=>`<tr><td><div class="stock-name">${s[0]}</div><div class="stock-sub">${s[1]}</div></td><td>₹${s[2].toLocaleString()}</td><td class="${s[3][0]=="+"?"green":"red"}">${s[3]}</td><td><span class="badge ${s[4].toLowerCase()}">${s[4]}</span></td><td><strong>${s[5]}</strong><div class="stock-sub">Research before investing</div></td></tr>`).join("");
+}
+function searchStock(){renderStocks(document.getElementById("stockSearch").value)}
+document.getElementById("stockSearch").addEventListener("keydown",e=>{if(e.key==="Enter")searchStock()});
+function saveProfile(){let u=JSON.parse(localStorage.getItem("finoraUser"))||{};u.name=profileName.value;u.salary=Number(profileSalary.value)||0;u.age=profileAge.value;u.risk=risk.value;localStorage.setItem("finoraUser",JSON.stringify(u));topName.innerText=u.name;avatar.innerText=u.name.charAt(0).toUpperCase();analyzeSalary(u.salary);alert("Profile saved successfully.")}
+function addExpense(){let n=prompt("Expense category?"),a=Number(prompt("Amount ₹?"));if(!n||!a)return;document.getElementById("expenseList").innerHTML+=`<div class="expense"><div>${esc(n)} <small>Today</small></div><strong>₹${a.toLocaleString()}</strong></div>`}
+function logout(){app.classList.remove("active");auth.style.display="flex";authForm.reset();showLogin()}
+function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+window.addEventListener("error",function(e){console.error(e.error||e.message);});
+let saved=JSON.parse(localStorage.getItem("finoraUser"));if(saved)loginUser(saved);renderStocks();
+</script>
+</body>
+</html>
